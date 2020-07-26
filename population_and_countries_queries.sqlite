@@ -1,0 +1,75 @@
+SELECT COUNT(*)
+FROM countries
+WHERE continent = 'Africa'; 
+
+/* 56 */
+
+WITH previous_query AS (SELECT * 
+FROM countries 
+JOIN population_years 
+ON countries.id = population_years.country_id)
+SELECT ROUND(SUM(population), 2)
+FROM previous_query
+WHERE year = 2005 AND continent = 'Oceania'; 
+
+/* rounded to nearest hundreth place = 32.66 MILLION */
+
+WITH previous_query AS (SELECT * 
+FROM countries 
+JOIN population_years 
+ON countries.id = population_years.country_id)
+SELECT AVG(population)
+FROM previous_query
+WHERE year = 2003 AND continent = 'South America'; 
+
+/* 25.89 MILLION */
+
+WITH previous_query AS (SELECT * 
+FROM countries 
+JOIN population_years 
+ON countries.id = population_years.country_id)
+SELECT * 
+FROM previous_query 
+WHERE year = 2007 AND population is not NULL
+ORDER BY population ASC
+LIMIT 1; 
+
+/* Niue population = 0.00216 million */
+
+WITH previous_query AS (SELECT * 
+FROM countries 
+JOIN population_years 
+ON countries.id = population_years.country_id)
+SELECT AVG(population)
+FROM previous_query
+WHERE name = 'Poland';
+
+/* average Poland population = 38.56 */
+
+SELECT COUNT(*)
+FROM countries 
+WHERE name LIKE '%The%'; 
+
+/* 4 */
+
+SELECT DISTINCT continent 
+FROM countries; 
+/* NA. SA, Europe, Asia, Africa, Oceania */ 
+
+WITH previous_query AS (SELECT * 
+FROM countries 
+JOIN population_years 
+ON countries.id = population_years.country_id)
+SELECT id, continent, ROUND(SUM(population), 2)
+FROM previous_query
+WHERE year= 2010
+GROUP BY continent; 
+
+/* 
+Africa = 1015.48 million 
+Asia = 4133 million
+Europe 723 million
+N. America = 539.79 million
+Oceania = 34.96 million
+S. America = 396.58 million
+*/
